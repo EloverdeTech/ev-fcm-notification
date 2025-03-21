@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use Benwilkins\FCM\FcmChannel;
 use Benwilkins\FCM\FcmMessage;
 use Illuminate\Notifications\Notification;
+use PHPUnit\Framework\Attributes\Test;
 
 class FcmChannelTest extends TestCase
 {
@@ -27,7 +28,7 @@ class FcmChannelTest extends TestCase
     /** @var Notifiable|\Mockery\MockInterface */
     protected $notifiable;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->events = m::mock(FcmChannel::class);
         $this->client = m::mock(Client::class);
@@ -36,8 +37,7 @@ class FcmChannelTest extends TestCase
         $this->notifiable = m::mock(Notifiable::class);
     }
 
-    /** @test */
-    public function it_can_send_a_notification()
+    #[Test] public function it_can_send_a_notification()
     {
         $response = new Response(200, [], '{}');
 
@@ -52,8 +52,7 @@ class FcmChannelTest extends TestCase
         $this->channel->send($this->notifiable, $this->notification);
     }
 
-    /** @test */
-    public function ic_cannot_send_a_notification()
+    #[Test] public function ic_cannot_send_a_notification()
     {
         $this->notifiable->shouldReceive('routeNotificationFor')
             ->andReturnNull();
